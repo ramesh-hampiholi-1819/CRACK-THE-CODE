@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}CRACK THE CODE | Learn. Code. Practice.{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-card">
+      <div class="eyebrow">Royal learning platform</div>
+      <h1>Your Journey to Master Coding Starts Here</h1>
+      <p class="subtext">Practice programming in a refined, premium environment built for clear learning, confident coding, and steady progress.</p>
+      <div class="hero-actions">
+        <a href="{% url 'challenge_list' %}" class="btn btn-primary">Start Practicing</a>
+        <a href="{% url 'languages' %}" class="btn btn-secondary">Explore Languages</a>
+      </div>
+    </div>
+    <div class="code-window">
+      <pre><code>def learn():
+    while not confident:
+        write_code()
+        test_solution()
+        fix_errors()
+    return "ready to build"
+
+print(learn())</code></pre>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">Languages</div>
+    <div class="language-grid" style="margin-top: 18px;">
+      {% for language in languages %}
+        <article class="language-card">
+          <div class="icon" style="background: {{ language.color }};">{{ language.name|slice:':2' }}</div>
+          <h3>{{ language.name }}</h3>
+          <p class="muted">{{ language.tagline }}</p>
+          <a href="{% url 'language_detail' language.slug %}" class="badge">Explore</a>
+        </article>
+      {% empty %}
+        <p class="muted">No language content available yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">Featured challenges</div>
+    <div class="challenge-grid" style="margin-top: 18px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+      {% for challenge in featured_challenges %}
+        <article class="challenge-card">
+          <span class="badge">{{ challenge.difficulty }}</span>
+          <h3>{{ challenge.title }}</h3>
+          <p class="muted">{{ challenge.description }}</p>
+          <a href="{% url 'challenge_detail' challenge.slug %}">Solve challenge →</a>
+        </article>
+      {% empty %}
+        <p class="muted">New challenges are on the way.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">Why learners choose CRACK THE CODE</div>
+    <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 18px;">
+      <article class="feature-card">
+        <h3>Beginner-friendly</h3>
+        <p class="muted">Learn essential concepts without being overwhelmed by advanced theory.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Practice immediately</h3>
+        <p class="muted">Solve short exercises, experiment in the editor, and sharpen your skills quickly.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Track progress</h3>
+        <p class="muted">Follow your attempts, completed tasks, and learning momentum from one place.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">How it works</div>
+    <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 18px;">
+      <article class="feature-card">
+        <h3>1. Learn</h3>
+        <p class="muted">Read structured tutorials and build a clear base before moving to harder ideas.</p>
+      </article>
+      <article class="feature-card">
+        <h3>2. Practice</h3>
+        <p class="muted">Use the interactive editor to test concepts, fix bugs, and build confidence.</p>
+      </article>
+      <article class="feature-card">
+        <h3>3. Crack it</h3>
+        <p class="muted">Solve coding challenges that turn knowledge into real, repeatable problem-solving ability.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">Frequently asked questions</div>
+    <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top: 18px;">
+      <article class="feature-card">
+        <h3>Is it free?</h3>
+        <p class="muted">Yes. The platform is designed for open-access learning without any paid subscription barrier.</p>
+      </article>
+      <article class="feature-card">
+        <h3>Do I need experience?</h3>
+        <p class="muted">No. The tutorials are beginner-friendly and grow with you as you learn more.</p>
+      </article>
+      <article class="feature-card">
+        <h3>What can I practice?</h3>
+        <p class="muted">You can work through HTML, CSS, Python, Java, and C lessons, exercises, and coding challenges.</p>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}

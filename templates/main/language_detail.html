@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ language.name }} | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">{{ language.name }}</div>
+    <h2>{{ language.tagline }}</h2>
+    <p class="subtext">{{ language.description }}</p>
+
+    <div class="grid-two" style="margin-top: 24px;">
+      <article class="panel" style="padding: 24px;">
+        <h3>Beginner-friendly tutorials</h3>
+        <ul>
+          {% for tutorial in tutorials %}
+            <li>
+              <strong>{{ tutorial.title }}</strong>
+              <div class="muted">{{ tutorial.excerpt }}</div>
+            </li>
+          {% empty %}
+            <li>No tutorials are available yet.</li>
+          {% endfor %}
+        </ul>
+      </article>
+
+      <article class="panel" style="padding: 24px;">
+        <h3>Practice exercises</h3>
+        <div class="meta-list">
+          {% for challenge in challenges %}
+            <a href="{% url 'challenge_detail' challenge.slug %}" class="badge">{{ challenge.title }}</a>
+          {% empty %}
+            <span class="muted">No exercises added yet.</span>
+          {% endfor %}
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}

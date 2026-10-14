@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ challenge.title }} | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container challenge-detail-grid">
+    <article class="panel" style="padding: 24px;">
+      <div class="eyebrow">{{ challenge.language.name }}</div>
+      <h2>{{ challenge.title }}</h2>
+      <div class="meta-list" style="margin: 10px 0 18px;">
+        <span class="badge">{{ challenge.difficulty }}</span>
+      </div>
+      <p>{{ challenge.description }}</p>
+
+      <h3>Instructions</h3>
+      <p>{{ challenge.instructions }}</p>
+
+      <h3>Constraints</h3>
+      <p class="muted">{{ challenge.constraints }}</p>
+
+      <h3>Hints</h3>
+      <p class="muted">{{ challenge.hints }}</p>
+
+      <h3>Starter code</h3>
+      <div class="code-window"><pre>{{ challenge.starter_code }}</pre></div>
+
+      <h3>Example input</h3>
+      <div class="code-window"><pre>{{ challenge.example_input }}</pre></div>
+
+      <h3>Example output</h3>
+      <div class="code-window"><pre>{{ challenge.example_output }}</pre></div>
+    </article>
+
+    <aside>
+      <div class="panel" style="padding: 20px; margin-bottom: 18px;">
+        <h3>Submit solution</h3>
+        <form method="post">
+          {% csrf_token %}
+          <div class="form-grid">
+            <textarea name="code" aria-label="Challenge code" rows="14">{{ challenge.starter_code }}</textarea>
+            <button class="btn btn-primary" type="submit">Submit answer</button>
+          </div>
+        </form>
+      </div>
+
+      {% if execution_result %}
+        <div class="panel" style="padding: 20px;">
+          <h3>Recent execution</h3>
+          <div class="output-box">{{ execution_result.output|default:'No output.' }}</div>
+          {% if execution_result.error %}<p class="muted">{{ execution_result.error }}</p>{% endif %}
+        </div>
+      {% endif %}
+    </aside>
+  </div>
+</section>
+{% endblock %}

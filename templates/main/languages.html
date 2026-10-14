@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Languages | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">Choose a language</div>
+    <h2>Build skills across the web and software stack</h2>
+    <div class="language-grid" style="margin-top: 20px;">
+      {% for language in languages %}
+        <article class="language-card">
+          <div class="icon" style="background: {{ language.color }};">{{ language.name|slice:':2' }}</div>
+          <h3>{{ language.name }}</h3>
+          <p class="muted">{{ language.description }}</p>
+          <div class="meta-list">
+            <span class="badge">{{ language.tagline }}</span>
+          </div>
+          <p style="margin-top: 14px;"><a href="{% url 'language_detail' language.slug %}">Open language path →</a></p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

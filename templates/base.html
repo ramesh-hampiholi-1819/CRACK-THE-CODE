@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}CRACK THE CODE{% endblock %}</title>
+    <script>
+      (function () {
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme === 'system' ? (dark ? 'dark' : 'light') : savedTheme;
+        const accent = localStorage.getItem('accentColor') || '#7854f7';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.style.setProperty('--accent', accent);
+        document.documentElement.style.setProperty('--accent-strong', accent);
+      })();
+    </script>
+    <link rel="stylesheet" href="{% static 'css/site.css' %}" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container navbar">
+        <a href="{% url 'home' %}" class="brand" aria-label="Home">
+          <span class="logo">&lt;/&gt;</span>
+          <span>CRACK THE CODE</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="{% url 'home' %}">Home</a>
+          <a href="{% url 'languages' %}">Learn</a>
+          <a href="{% url 'practice' %}">Practice</a>
+          <a href="{% url 'challenge_list' %}">Challenges</a>
+          <a href="{% url 'about' %}">About</a>
+        </nav>
+        <div class="nav-actions">
+          <label>
+            <select data-theme-select aria-label="Theme selector">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="system">System</option>
+            </select>
+          </label>
+          {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Dashboard</a>
+            <a href="{% url 'profile' %}" class="btn btn-secondary">Profile</a>
+            <a href="{% url 'logout' %}" class="btn">Log out</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="btn btn-secondary">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+
+    {% if messages %}
+      <div class="container" style="padding-top: 22px;">
+        {% for message in messages %}
+          <div class="panel" style="padding: 12px 18px; margin-bottom: 12px; background: var(--accent-soft); border-color: var(--border);">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div>
+          <div class="brand">
+            <span class="logo">&lt;/&gt;</span>
+            <span>CRACK THE CODE</span>
+          </div>
+          <p class="muted">Learn. Code. Practice. Crack It.</p>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <p><a href="{% url 'languages' %}">Tutorials</a></p>
+          <p><a href="{% url 'practice' %}">Practice playground</a></p>
+          <p><a href="{% url 'challenge_list' %}">Challenges</a></p>
+        </div>
+        <div>
+          <h4>Project</h4>
+          <p><a href="{{ project_github_url|default:'https://github.com/your-org/crack-the-code' }}" target="_blank" rel="noreferrer">GitHub</a></p>
+          <p><a href="{% url 'about' %}">Documentation</a></p>
+          <p><a href="{% url 'about' %}">License</a></p>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <p><a href="mailto:hello@crackthecode.dev">hello@crackthecode.dev</a></p>
+          <p>Open source and free to learn.</p>
+        </div>
+      </div>
+    </footer>
+    <script src="{% static 'js/theme.js' %}"></script>
+  </body>
+</html>

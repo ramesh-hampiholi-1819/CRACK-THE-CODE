@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="profile-card panel">
+      <div class="eyebrow">Profile</div>
+      <h2>{{ user.username }}</h2>
+      <p class="muted">Email: {{ user.email|default:'No email on file' }}</p>
+      <div class="grid-two" style="margin-top: 18px;">
+        <div>
+          <h3>Theme</h3>
+          <p>{{ profile.theme|title }}</p>
+        </div>
+        <div>
+          <h3>Default language</h3>
+          <p>{{ profile.default_language|title }}</p>
+        </div>
+      </div>
+      <p style="margin-top: 18px;"><a href="{% url 'settings' %}" class="btn btn-primary">Update settings</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

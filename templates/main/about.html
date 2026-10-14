@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}About | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">About</div>
+    <h2>Free programming education for curious learners</h2>
+    <p class="subtext">CRACK THE CODE exists to make programming more accessible by pairing clear learning paths with practical coding exercises and guided challenge work.</p>
+
+    <div class="grid-two" style="margin-top: 24px;">
+      <article class="panel" style="padding: 24px;">
+        <h3>Our mission</h3>
+        <p>We want learners to build confidence through structured lessons, real challenges, and a strong coding habit.</p>
+      </article>
+      <article class="panel" style="padding: 24px;">
+        <h3>Open source</h3>
+        <p>The platform is designed to be transparent, maintainable, and welcoming to contributors from all backgrounds.</p>
+      </article>
+    </div>
+
+    <div class="grid-two" style="margin-top: 24px;">
+      <article class="panel" style="padding: 24px;">
+        <h3>How to contribute</h3>
+        <p>Fork the project, open a pull request, and share new tutorials, challenge ideas, or fixes to improve the experience for everyone.</p>
+      </article>
+      <article class="panel" style="padding: 24px;">
+        <h3>How to report bugs</h3>
+        <p>Open an issue in the repository with clear reproduction steps and expected behavior, so the team can triage and resolve it efficiently.</p>
+      </article>
+    </div>
+
+    <div class="panel" style="padding: 24px; margin-top: 24px;">
+      <h3>Run locally</h3>
+      <p>Install Django, create a virtual environment, apply migrations, and launch the app using the commands in the project README.</p>
+      <p><a href="{{ project_github_url }}" target="_blank" rel="noreferrer">View the GitHub repository</a></p>
+    </div>
+  </div>
+</section>
+{% endblock %}

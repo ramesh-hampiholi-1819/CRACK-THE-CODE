@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Practice Playground | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container example">
+    <div class="eyebrow">Interactive playground</div>
+    <h2>Write and test code in a sandboxed environment</h2>
+    <div class="practice-layout">
+      <div>
+        <div class="editor-header">
+          <strong>Editor</strong>
+          <div class="meta-list">
+            <select id="language-select" aria-label="Programming language">
+              <option value="html" {% if default_language == 'html' %}selected{% endif %}>HTML</option>
+              <option value="css" {% if default_language == 'css' %}selected{% endif %}>CSS</option>
+              <option value="python" {% if default_language == 'python' %}selected{% endif %}>Python</option>
+              <option value="java" {% if default_language == 'java' %}selected{% endif %}>Java</option>
+              <option value="c" {% if default_language == 'c' %}selected{% endif %}>C</option>
+            </select>
+          </div>
+        </div>
+        <div class="editor-shell">
+          <textarea id="editor-code" aria-label="Code editor">print("Hello, CRACK THE CODE!")</textarea>
+        </div>
+        <div class="editor-header" style="margin-top: 12px;">
+          <button id="run-code" class="btn btn-primary">Run</button>
+          <button id="reset-code" class="btn btn-secondary">Reset</button>
+        </div>
+      </div>
+
+      <aside>
+        <div class="panel" style="padding: 18px; margin-bottom: 14px;">
+          <h3>Input</h3>
+          <textarea id="stdin-input" aria-label="Standard input" style="min-height: 120px;"> </textarea>
+        </div>
+        <div class="panel" style="padding: 18px;">
+          <h3>Output</h3>
+          <div id="output-box" class="output-box">Execution status will appear here.</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  const starterTemplates = {
+    html: '<!DOCTYPE html>\n<html>\n  <body>\n    <h1>Hello from HTML</h1>\n  </body>\n</html>',
+    css: 'body { font-family: sans-serif; padding: 2rem; }\n.card { background: #eef2ff; border-radius: 12px; padding: 1.5rem; }',
+    python: 'print("Hello, CRACK THE CODE!")',
+    java: 'public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello from Java");\n  }\n}',
+    c: '#include <stdio.h>\nint main() {\n  printf("Hello from C\\n");\n  return 0;\n}'
+  };
+
+  const editor = document.getElementById('editor-code');
+  const languageSelect = document.getElementById('language-select');
+  const outputBox = document.getElementById('output-box');
+  const runButton = document.getElementById('run-code');
+  const resetButton = document.getElementById('reset-code');
+
+  editor.value = starterTemplates[languageSelect.value];
+
+  languageSelect.addEventListener('change', function () {
+    editor.value = starterTemplates[this.value];
+  });
+
+  resetButton.addEventListener('click', function () {
+    editor.value = starterTemplates[languageSelect.value];
+    outputBox.textContent = 'Editor reset.';
+  });
+
+  runButton.addEventListener('click', function () {
+    const language = languageSelect.value;
+    const code = editor.value;
+    const input = document.getElementById('stdin-input').value;
+    outputBox.textContent = 'Running...';
+
+    const formData = new FormData();
+    formData.append('language', language);
+    formData.append('code', code);
+    formData.append('input', input);
+
+    fetch('{% url "execute_code" %}', {
+      method: 'POST',
+      headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+      body: formData
+    }).then(response => response.json())
+      .then(data => {
+        if (!data.configured) {
+          outputBox.textContent = data.error || 'The execution service is not configured.';
+          return;
+        }
+        if (data.status === 'success') {
+          outputBox.textContent = data.output || 'Code executed successfully with no output.';
+        } else {
+          outputBox.textContent = data.error || 'Execution failed.';
+        }
+      })
+      .catch(() => {
+        outputBox.textContent = 'Failed to execute the code. Check the server configuration.';
+      });
+  });
+</script>
+{% endblock %}

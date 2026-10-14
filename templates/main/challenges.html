@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Coding Challenges | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="eyebrow">Challenge board</div>
+    <h2>Practice by difficulty and language</h2>
+
+    <form method="get" class="panel" style="padding: 18px; margin-top: 20px;">
+      <div class="two-col">
+        <label>
+          Search
+          <input type="text" name="q" value="{{ query|default:'' }}" placeholder="Search challenge" />
+        </label>
+        <label>
+          Language
+          <select name="language">
+            <option value="">All languages</option>
+            {% for language in languages %}
+              <option value="{{ language.slug }}" {% if language_slug == language.slug %}selected{% endif %}>{{ language.name }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>
+          Difficulty
+          <select name="difficulty">
+            <option value="">All levels</option>
+            <option value="Easy" {% if difficulty == 'Easy' %}selected{% endif %}>Easy</option>
+            <option value="Medium" {% if difficulty == 'Medium' %}selected{% endif %}>Medium</option>
+            <option value="Hard" {% if difficulty == 'Hard' %}selected{% endif %}>Hard</option>
+          </select>
+        </label>
+        <div style="display: flex; align-items: end;">
+          <button class="btn btn-primary" type="submit">Apply filters</button>
+        </div>
+      </div>
+    </form>
+
+    <div class="challenge-grid" style="margin-top: 25px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
+      {% for challenge in challenges %}
+        <article class="challenge-card">
+          <div class="meta-list">
+            <span class="badge">{{ challenge.language.name }}</span>
+            <span class="badge">{{ challenge.difficulty }}</span>
+          </div>
+          <h3>{{ challenge.title }}</h3>
+          <p class="muted">{{ challenge.description }}</p>
+          <a href="{% url 'challenge_detail' challenge.slug %}">View challenge →</a>
+        </article>
+      {% empty %}
+        <p class="muted">No challenges match your current filters.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings | CRACK THE CODE{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div class="settings-card panel">
+      <div class="eyebrow">Settings</div>
+      <h2>Customize your learning workspace</h2>
+      <form method="post" class="form-grid">
+        {% csrf_token %}
+        <div class="two-col">
+          <label>
+            Theme
+            {{ form.theme }}
+          </label>
+          <label>
+            Accent color
+            <input type="color" name="accent_color" value="{{ profile.accent_color }}" data-accent-select />
+          </label>
+          <label>
+            Editor font size
+            {{ form.editor_font_size }}
+          </label>
+          <label>
+            Editor tab size
+            {{ form.editor_tab_size }}
+          </label>
+          <label>
+            Default programming language
+            {{ form.default_language }}
+          </label>
+          <label>
+            Automatic indentation
+            {{ form.auto_indent }}
+          </label>
+        </div>
+        <div class="meta-list">
+          <button class="btn btn-primary" type="submit">Save preferences</button>
+          <button type="button" class="btn btn-secondary" id="reset-accent">Reset accent</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
